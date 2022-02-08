@@ -18,7 +18,7 @@ micropython.alloc_emergency_exception_buf(100)
 que = Queue('h', 1000)
 
 def interrupt(dummy):
-	'''!
+    '''!
         @brief   An interrupt function that reads queues and place them in the queue
         @param   dummy is just a dummy variable
     '''
@@ -29,12 +29,12 @@ def interrupt(dummy):
         que.put(num)
 
 def printQue():
-	'''!
+    '''!
         @brief  
     '''
     while not que.empty():
         print(que.get())
-		
+
 def pinlow():
 
     pinC1.low()
@@ -59,12 +59,12 @@ def main():
     timer.callback(None)
     printQue()
 
-	
-	
+
+
 if __name__ == '__main__':
     pinlow()
     main()
-	
+
 
 
 
