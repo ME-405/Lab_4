@@ -15,7 +15,7 @@ pinC1 = pyb.Pin(pyb.Pin.board.PC1, pyb.Pin.OUT_PP)
 pinC0 = pyb.Pin(pyb.Pin.board.PC0, pyb.Pin.IN)
 myADC = pyb.ADC(pinC0)
 micropython.alloc_emergency_exception_buf(100)
-que = Queue('h', 1000)
+que = Queue('h', 2000)
 
 def interrupt(dummy):
     '''!
@@ -34,6 +34,7 @@ def printQue():
     '''
     while not que.empty():
         print(que.get())
+    print('DONE')
 
 def pinlow():
 

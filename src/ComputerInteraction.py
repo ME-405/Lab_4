@@ -94,13 +94,21 @@ class UInterface:
         '''!
         @brief It provides with the plot for the data provided
         '''
+        # Getting a new figure
         self.plt.figure()
+        
+        # Plotting 63% of the value
+        self.voltage_at_tau = self.Position*0.63
+        self.plt.axhline( y=self.voltage_at_tau ,color='r',linestyle='-')
+        
+        # Plotting the values
         self.plt.plot( self.Position_list, '.')
-        self.plt.title('Position vs Time with Kp = ' + str(self.K_p))
-        self.plt.ylabel('Position (ticks)')
+        self.plt.title('Volts vs Time, 2000 Queue')
+        self.plt.ylabel('Voltage (mV)')
         self.plt.xlabel('Time (ms)')
         self.plt.grid()
         self.plt.show()
+        
 
     def run(self):
         '''!
@@ -109,9 +117,9 @@ class UInterface:
         while True:
             if self.state == self.S0_CHECK:
                 self.SendChar()
-                self.curr_time = time.time()
-                self.fut_time = self.curr_time + 10  # It runs state_1 from 10 seconds
-                self.run = 0
+                #self.curr_time = time.time()
+                #self.fut_time = self.curr_time + 10  # It runs state_1 from 10 seconds
+                #self.run = 0
                 if self.inv == 'G':  # To keep collecting data
                     self.transitionTo(self.S1_Update_Position)
 
@@ -129,48 +137,53 @@ class UInterface:
                     self.transitionTo(self.S1_Update_Position)
 
                 else:
-                    print('Invalid input')
+                    print('Invalid input')    
                     self.transitionTo(self.S1_Update_Position)
 
             elif self.state == self.S1_Update_Position:
-                self.current_time = time.time()  # It provides with the current time
-                if (self.curr_time <= self.fut_time):
-                    self.curr_time += self.interval
-                    self.run += 1
-                    if self.keyboard.is_pressed('S'):  # To stop data collection and input a new command
-                        self.inv = 'S'
-                        self.transitionTo(self.S0_CHECK)
+                # self.current_time = time.time()  # It provides with the current time
+                # if (self.curr_time <= self.fut_time):
+                #     self.curr_time += self.interval
+                    # self.run += 1
+                    # if self.keyboard.is_pressed('S'):  # To stop data collection and input a new command
+                    #     self.inv = 'S'
+                    #     self.transitionTo(self.S0_CHECK)
 
-                    elif self.keyboard.is_pressed('P'):
-                        self.inv = 'P'
-                        self.transitionTo(self.S0_CHECK)
+                    # elif self.keyboard.is_pressed('P'):
+                    #     self.inv = 'P'
+                    #     self.transitionTo(self.S0_CHECK)
 
-                    else:
+                    # else:
+                    
                         self.myval = self.ser.readline().decode('ascii')
-                        self.Data = self.myval.strip().split(' ')
+                        self.Data = self.myval.strip()
 
-                        if self.Data[0] == '':
-                            # print('Empty array')                             # DEBUG
+                        if self.Data == '':
+                            #print('Empty array')                             # DEBUG
                             pass
-                        elif self.Data[0] == 'DONE':
+                        elif self.Data == 'DONE':
                             self.Plot()
-                        elif len(self.Data) != 2:
-                            # print('DEBUG ', self.Data, 'Incorrect length')  # DEBUG
-                            pass
+                            self.ser.close()
+                            break
+                        
+                        # elif len(self.Data) != 2:
+                        #     print('DEBUG ', self.Data, 'Incorrect length')  # DEBUG
+                        #     pass
 
                         else:
                             try:
-                                print(self.Data)
+                                #print(self.Data)
                                 #self.Position = float(self.Data[1])
                                 #self.Time = float(self.Data[1])                    # Time provided by PuTTY
-                                self.Position = float(self.Data[0])
+                                self.Position = float(self.Data)
+                                self.Position = self.Position*(3.3/4096)            # Units of mili-volts
                                 # self.Omega = float(self.Data[0])
                                 self.Position_list.append(self.Position)
                                 #self.Time_list.append(self.Time)
                                 # self.Omega_list.append(self.Omega)
                                 self.Data_list = [self.Position_list]
                                 self.Data_list2 = self.np.transpose(self.Data_list)
-                                print('run # ' + str(self.run))
+                                #print('run # ' + str(self.run))
                                 # print(self.myval)
                                 # print(self.Data_list)
                                 np.savetxt('lab4Data.csv', self.Data_list2, delimiter=',')
@@ -179,16 +192,15 @@ class UInterface:
                                 print('DEBUG: Exception')
 
 
-                else:
-                    self.inv = 'G'
-                    self.Plot()
-                    self.transitionTo(self.S0_CHECK)
+                # else:
+                #     self.inv = 'G'
+                #     self.Plot()
+                #     self.transitionTo(self.S0_CHECK)
 
     ## If it not working, check additon of Position of encoder
 
 
-## Task object
-task1 = UInterface()  # Will run a task for the the encoder
-
-while True:  # Will change to   "while True:" once we're on hardware
+if __name__ == '__main__':
+    ## Task object
+    task1 = UInterface()  # Will run a task for the the encode
     task1.run()
