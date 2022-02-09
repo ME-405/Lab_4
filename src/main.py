@@ -1,8 +1,8 @@
 """!
-     @file       main.py
-     @brief      A brief code that manages queues for Lab-4
-     @author     Nick De Simone, Jacob-Bograd, Horacio Albarran
-     @date       February 08, 2022
+@file       main.py
+@brief      A brief code that manages queues for Lab-4
+@author     Nick De Simone, Jacob-Bograd, Horacio Albarran
+@date       February 08, 2022
 """
 
 # Importing libraries and classes
