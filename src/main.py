@@ -4,6 +4,7 @@
      @author     Nick De Simone, Jacob-Bograd, Horacio Albarran
      @date       February 08, 2022
 """
+
 # Importing libraries and classes
 import pyb
 import utime
@@ -30,18 +31,24 @@ def interrupt(dummy):
 
 def printQue():
     '''!
-        @brief  
+        @brief  It places the read value onto the queue
     '''
     while not que.empty():
         print(que.get())
     print('DONE')
 
 def pinlow():
+	'''!
+        @brief  Setting pinC1 to low 
+    '''
 
     pinC1.low()
     utime.sleep_ms(3000)
 
 def main():
+	'''!
+        @brief  Main running function where a timer interrupt is set
+    '''
     
     #start low
     #pinC1.low()
@@ -61,7 +68,7 @@ def main():
     printQue()
 
 
-
+## To run the file automatically from putty every time the system resets
 if __name__ == '__main__':
     pinlow()
     main()

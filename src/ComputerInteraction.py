@@ -3,7 +3,7 @@
 @details It contains a taksfile that collects data according to the readings from the
 			enconder connected to the Nucleo-L476RG 
 @author  Nick De Simone, Jacob-Bograd, Horacio Albarran
-@date    January 30, 2022
+@date    February 08, 2022
 """
 
 # Importing libraries and classes
@@ -69,20 +69,13 @@ class UInterface:
         @brief It creates an object which transforms the input to the ASCII corresponding value
         '''
         
-        # Control + C
+        # Sending Control + C through the serial port
         self.ser.write(b'\x03')
         time.sleep(0.25)             # Sleeps for 0.5 seconds
         
-        # Control + D
+        # Sending Control + D through the serial port
         self.ser.write(b'\x04')
         time.sleep(0.25)             # Sleeps for 0.5 seconds
-        
-        # print('\r\n')
-        # print('Allowed K_p values are from 0-1')
-        # print('and press "S" to provide with a new command while collecting data')
-        # print(' "P" to plot the data, and "S" to start collecting data from zero')
-        # self.K_p = input('Provide with input for K_p:  ')
-        # self.ser.write((str(self.K_p) + '\r' + '\n').encode('ascii'))
 
     def transitionTo(self, newState):
         '''!
@@ -97,25 +90,26 @@ class UInterface:
         # Getting a new figure
         self.plt.figure()
         
-        # Plotting 63% of the value
+        # Plotting 63% of the value, 0.63 is the correction factor
+		# to get the analog voltage signal at 63%
         self.voltage_at_tau = self.Position*0.63
         self.plt.axhline( y=self.voltage_at_tau ,color='r',linestyle='-')
         
         # Plotting the values
         self.plt.plot( self.Position_list, '.')
-        self.plt.title('Volts vs Time, 2000 Queue')
+        self.plt.title('Volts vs Time')
         self.plt.ylabel('Voltage (mV)')
         self.plt.xlabel('Time (ms)')
         self.plt.grid()
         self.plt.show()
         
-
     def run(self):
         '''!
         @brief It will run the Computer Interaction code within Python
         '''
         while True:
             if self.state == self.S0_CHECK:
+			
                 self.SendChar()
                 #self.curr_time = time.time()
                 #self.fut_time = self.curr_time + 10  # It runs state_1 from 10 seconds
@@ -141,66 +135,42 @@ class UInterface:
                     self.transitionTo(self.S1_Update_Position)
 
             elif self.state == self.S1_Update_Position:
-                # self.current_time = time.time()  # It provides with the current time
-                # if (self.curr_time <= self.fut_time):
-                #     self.curr_time += self.interval
-                    # self.run += 1
-                    # if self.keyboard.is_pressed('S'):  # To stop data collection and input a new command
-                    #     self.inv = 'S'
-                    #     self.transitionTo(self.S0_CHECK)
+			
+			    # Reading the lines provided through the serial interaction and stripping
+				self.myval = self.ser.readline().decode('ascii')
+				self.Data = self.myval.strip()
 
-                    # elif self.keyboard.is_pressed('P'):
-                    #     self.inv = 'P'
-                    #     self.transitionTo(self.S0_CHECK)
+				if self.Data == '':
+					#print('Empty array')                             # DEBUG
+					pass
+				elif self.Data == 'DONE':
+					self.Plot()
+					self.ser.close()
+					break
+				
+				# elif len(self.Data) != 2:
+				#     print('DEBUG ', self.Data, 'Incorrect length')  # DEBUG
+				#     pass
 
-                    # else:
-                    
-                        self.myval = self.ser.readline().decode('ascii')
-                        self.Data = self.myval.strip()
-
-                        if self.Data == '':
-                            #print('Empty array')                             # DEBUG
-                            pass
-                        elif self.Data == 'DONE':
-                            self.Plot()
-                            self.ser.close()
-                            break
-                        
-                        # elif len(self.Data) != 2:
-                        #     print('DEBUG ', self.Data, 'Incorrect length')  # DEBUG
-                        #     pass
-
-                        else:
-                            try:
-                                #print(self.Data)
-                                #self.Position = float(self.Data[1])
-                                #self.Time = float(self.Data[1])                    # Time provided by PuTTY
-                                self.Position = float(self.Data)
-                                self.Position = self.Position*(3.3/4096)            # Units of mili-volts
-                                # self.Omega = float(self.Data[0])
-                                self.Position_list.append(self.Position)
-                                #self.Time_list.append(self.Time)
-                                # self.Omega_list.append(self.Omega)
-                                self.Data_list = [self.Position_list]
-                                self.Data_list2 = self.np.transpose(self.Data_list)
-                                #print('run # ' + str(self.run))
-                                # print(self.myval)
-                                # print(self.Data_list)
-                                np.savetxt('lab4Data.csv', self.Data_list2, delimiter=',')
-                                self.transitionTo(self.S1_Update_Position)
-                            except:
-                                print('DEBUG: Exception')
-
-
-                # else:
-                #     self.inv = 'G'
-                #     self.Plot()
-                #     self.transitionTo(self.S0_CHECK)
-
-    ## If it not working, check additon of Position of encoder
-
+				else:
+					try:
+						#print(self.Data)
+						#self.Position = float(self.Data[1])
+						#self.Time = float(self.Data[1])              # Time provided by PuTTY
+						self.Position = float(self.Data)
+						self.Position = self.Position*(3.3/4096)      # Units of mili-volts, analog voltage
+						self.Position_list.append(self.Position)
+						self.Data_list = [self.Position_list]
+						self.Data_list2 = self.np.transpose(self.Data_list)
+						#print('run # ' + str(self.run))
+						# print(self.myval)
+						# print(self.Data_list)
+						np.savetxt('lab4Data.csv', self.Data_list2, delimiter=',')
+						self.transitionTo(self.S1_Update_Position)
+					except:
+						print('DEBUG: Exception')
 
 if __name__ == '__main__':
     ## Task object
-    task1 = UInterface()  # Will run a task for the the encode
+    task1 = UInterface()  
     task1.run()
