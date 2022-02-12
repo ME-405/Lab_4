@@ -18,11 +18,11 @@ Graphs:
 ![16-bits, Queue 1000, trial #1](Images/Figure_6.png)  
 This graphs shows the signal for a 16-bits integers, with a 1000 size queue, and voltage signal of 3.3 Volts.
 The experimental time constant for this trial was calculated to be 340-ms and yielded a numerical percent error of 34.87
+  
 ![16-bits, Queue 1000, trial #2](Images/Figure_7.png)  
-
 This graphs shows the signal for a 16-bits integers, with a 1000 size queue, and input voltage signal of 3.3 Volts.  
 The experimental time constant for this trial was calculated to be 340-ms and yielded a numerical percent error of 34.87
-
+  
 ![16-bits, Queue 2000](Images/Queue=2000.png)  
 This graphs shows the signal for a 16-bits integers, with a 2000 size queue, and input voltage signal of 3.3 Volts.
 The experimental time constant for this trial was calculated to be 375-ms and yielded a numerical percent error of 28.16  
