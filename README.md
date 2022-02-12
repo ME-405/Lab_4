@@ -28,4 +28,9 @@ This graphs shows the signal for a 16-bits integers, with a 2000 size queue, and
 The experimental time constant for this trial was calculated to be 375-ms and yielded a numerical percent error of 28.16  
 
 **Note**
-The horizontal read line on each image represents the location of the voltage where the numerical value of the time constant occurs
+The horizontal read line on each image represents the location of the voltage where the numerical value of the experimental time constant occurs.
+Further, the fact that the percent of error for each of our trials is not within the expected range for typical tolerences for electronic components 
+can be due to the amount of electrostatic energy that was within the classroom. Since each of our team-mates, and people within the room, contributes
+with some sort of energy to the environment. The more people within a room, the greater the bias produced. The percent of error could also be outside
+of the range since most of our cable were entangle with each other, therefore, producing the electric fields to have some constructive and destructive 
+interfierence that would affect the electrical flow and thus the signal(s)
