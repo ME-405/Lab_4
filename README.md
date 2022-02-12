@@ -2,7 +2,7 @@
 ## Lab 04
 Jacob Bograd, Nick De Simone, Horacio Albarran
 
-Documentation: https://github.com/ME-405/Lab_4
+Documentation: https://me-405.github.io/Lab_4/
 
 ---
 
