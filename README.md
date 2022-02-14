@@ -32,5 +32,5 @@ The horizontal red-line on each image represents the location of the voltage whe
 The fact that the percent of error for each of our trials is not within the expected range for typical tolerances for electronic components because
 we did not measure the exact capacitance of the capacitor that we used. The lab did not have any equipment to measure the exact capacitance of the capacitor.
 To get the capacitance we read the three digit code on the capacitor and plugged them into a online calculator to find the capacitance.
-The percent of error could also be outside of the range since most of our cables were touching each other. This can induce inductance and capacitance**** in the lines
+The percent of error could also be outside of the range since most of our cables were touching each other. This can induce inductance and capacitance in the lines
 that is extremely hard to measure. 
