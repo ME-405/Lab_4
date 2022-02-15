@@ -6,7 +6,7 @@ Documentation: https://me-405.github.io/Lab_4/
 
 ---
 
-This lab conceptualize the way in which interrupts functions while using Queues with an Analog to Digital converter.
+This lab conceptualizes the way in which interrupts function when using Queues and an Analog to Digital converter.
 A time interrupt has been used in order to analyze the signal provided by such interruption while using a simple RC circuit.
 Regarding the RC circuit display below, a capacitor of 4.75-uF was used as well as a 5.95-Kohms and 104-Kohms resistors; further,
 the theoretical time constant for the RC circuit was calculated to be around 522-ms
