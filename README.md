@@ -11,6 +11,7 @@ A time interrupt has been used in order to analyze the signal provided by such i
 Regarding the RC circuit display below, a capacitor of 4.75-uF was used as well as a 5.95-Kohms and 104-Kohms resistors; further,
 the theoretical time constant for the RC circuit was calculated to be around 522-ms
 ![RC-Circuit](Images/rc_circuit.png) 
+[Images was provided in ME-405-03 for Lab #4]
 
 ---
 Graphs:  
