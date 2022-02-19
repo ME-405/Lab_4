@@ -11,7 +11,8 @@ A time interrupt has been used in order to analyze the signal provided by such i
 Regarding the RC circuit display below, a capacitor of 4.75-uF was used as well as a 5.95-Kohms and 104-Kohms resistors; further,
 the theoretical time constant for the RC circuit was calculated to be around 522-ms
 ![RC-Circuit](Images/rc_circuit.png) 
-[Images was provided in ME-405-03 for Lab #4]
+**Note:**
+Image of circuit was provided in ME-405-03 for Lab #4
 
 ---
 Graphs:  
@@ -28,7 +29,7 @@ The experimental time constant for this trial was calculated to be 340-ms and yi
 This graphs shows the signal for a 16-bits integers, with a 2000 size queue, and input voltage signal of 3.3 Volts.
 The experimental time constant for this trial was calculated to be 375-ms and yielded a numerical percent error of 28.16  
 
-**Note**
+**Note:**
 The horizontal red-line on each image represents the location of the voltage where the numerical value of the experimental time constant occurs. 
 The fact that the percent of error for each of our trials is not within the expected range for typical tolerances for electronic components because
 we did not measure the exact capacitance of the capacitor that we used. The lab did not have any equipment to measure the exact capacitance of the capacitor.
